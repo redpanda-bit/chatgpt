@@ -8,15 +8,18 @@ const makeRequest = async () => {
   });
 
   const askQuestion = (question) => {
-    readline.question(question || "", async (input) => {
-      const api = new ChatGPTAPI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-      const res = await api.sendMessage(input);
-      askQuestion(res.text + " press control+c to exit : ");
-    });
+    readline.question(
+      "ChatGPT: " + question || "" + "\n\nYou: ",
+      async (input) => {
+        const api = new ChatGPTAPI({
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+        const res = await api.sendMessage(input);
+        askQuestion(res.text + ` press control+c to exit : \n\nYou: `);
+      },
+    );
   };
-  await askQuestion("Ask me a question or say hi! : ");
+  await askQuestion(`Ask me a question or say hi! : \n\nYou: `);
 };
 
 makeRequest();
